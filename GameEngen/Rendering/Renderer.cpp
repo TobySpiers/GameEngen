@@ -2,15 +2,17 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "Core/AssetManager.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 
-Renderer::Renderer(const std::string& shaderDir)
+Renderer::Renderer()
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     InitQuad();
-    InitShader(shaderDir);
+    spriteShader = AssetManager::Get().GetShader("shaders/sprite.vert", "shaders/sprite.frag");
 }
 
 Renderer::~Renderer()
@@ -101,8 +103,3 @@ void Renderer::InitQuad()
     glBindVertexArray(0);
 }
 
-void Renderer::InitShader(const std::string& shaderDir)
-{
-    spriteShader = std::make_unique<Shader>(shaderDir + "sprite.vert",
-                                            shaderDir + "sprite.frag");
-}

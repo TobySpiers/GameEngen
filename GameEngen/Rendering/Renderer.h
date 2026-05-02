@@ -6,7 +6,6 @@
 #include <glm/glm.hpp>
 
 #include <memory>
-#include <string>
 
 class Shader;
 class Texture;
@@ -16,7 +15,7 @@ class Renderer
 public:
     static Renderer& Get() { return ServiceLocator::GetRenderer(); }
 public:
-    explicit Renderer(const std::string& shaderDir);
+    Renderer();
     ~Renderer();
 
     Renderer(const Renderer&)            = delete;
@@ -35,13 +34,12 @@ public:
                     glm::vec4       tint     = glm::vec4(1.0f));
 
 private:
-    GLuint                  quadVao        = 0;
-    GLuint                  quadVbo        = 0;
-    std::unique_ptr<Shader> spriteShader;
-    glm::mat4               projection     = glm::mat4(1.0f);
+    GLuint                         quadVao        = 0;
+    GLuint                         quadVbo        = 0;
+    std::shared_ptr<const Shader>  spriteShader;
+    glm::mat4                      projection     = glm::mat4(1.0f);
     int                     viewportWidth  = 0;
     int                     viewportHeight = 0;
 
     void InitQuad();
-    void InitShader(const std::string& shaderDir);
 };

@@ -1,5 +1,6 @@
 #include "ServiceLocator.h"
 
+#include "AssetManager.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Rendering/Renderer.h"
@@ -8,11 +9,21 @@
 #include <cstdio>
 
 // Static member definitions
+std::unique_ptr<AssetManager>      ServiceLocator::s_assetManager;
 std::unique_ptr<GameObjectManager> ServiceLocator::s_gameObjectManager;
 std::unique_ptr<InputManager>      ServiceLocator::s_inputManager;
-std::unique_ptr<Renderer>     ServiceLocator::s_renderer;
-std::unique_ptr<SoundManager> ServiceLocator::s_soundManager;
-GLFWwindow*                   ServiceLocator::s_window = nullptr;
+std::unique_ptr<Renderer>          ServiceLocator::s_renderer;
+std::unique_ptr<SoundManager>      ServiceLocator::s_soundManager;
+GLFWwindow*                        ServiceLocator::s_window = nullptr;
+
+AssetManager& ServiceLocator::GetAssetManager()
+{
+    if (!s_assetManager)
+    {
+        s_assetManager = std::make_unique<AssetManager>();
+    }
+    return *s_assetManager;
+}
 
 void ServiceLocator::ProvideWindow(GLFWwindow* window)
 {
@@ -50,7 +61,7 @@ Renderer& ServiceLocator::GetRenderer()
 {
     if (!s_renderer)
     {
-        s_renderer = std::make_unique<Renderer>("shaders/");
+        s_renderer = std::make_unique<Renderer>();
     }
     return *s_renderer;
 }
@@ -66,6 +77,7 @@ SoundManager& ServiceLocator::GetSoundManager()
 
 void ServiceLocator::Shutdown()
 {
+    s_assetManager.reset();
     s_gameObjectManager.reset();
     s_inputManager.reset();
     s_soundManager.reset();

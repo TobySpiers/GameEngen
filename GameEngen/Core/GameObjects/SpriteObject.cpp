@@ -1,10 +1,15 @@
 #include "Core/GameObjects/SpriteObject.h"
 
+#include "Core/AssetManager.h"
 #include "Core/Components/SpriteComponent.h"
 
 SpriteObject::SpriteObject(const std::string& texturePath)
+    : SpriteObject(AssetManager::Get().GetTexture(texturePath))
 {
-    texture    = std::make_unique<Texture>(texturePath);
+}
+
+SpriteObject::SpriteObject(std::shared_ptr<const Texture> texture)
+{
     spriteComp = AddComponent<SpriteComponent>();
-    spriteComp->SetTexture(texture.get());
+    spriteComp->SetTexture(std::move(texture));
 }

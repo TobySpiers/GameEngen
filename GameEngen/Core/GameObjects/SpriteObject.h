@@ -1,21 +1,21 @@
 #pragma once
 
 #include "Core/GameObject.h"
-#include "Rendering/Texture.h"
 
 #include <memory>
 #include <string>
 
 class SpriteComponent;
+class Texture;
 
 class SpriteObject : public GameObject
 {
 public:
     explicit SpriteObject(const std::string& texturePath);
+    explicit SpriteObject(std::shared_ptr<const Texture> texture);
 
     SpriteComponent* GetSpriteComponent() const { return spriteComp; }
 
 private:
-    std::unique_ptr<Texture> texture;
-    SpriteComponent*         spriteComp = nullptr;
+    SpriteComponent* spriteComp = nullptr;
 };

@@ -1,11 +1,14 @@
 #include "FlowstateManager.h"
 
+#include "AssetManager.h"
+
 FlowstateManager::~FlowstateManager()
 {
     // Ensure the active state gets a chance to clean up
     if (currentState)
     {
         currentState->FlowstateExit();
+        AssetManager::Get().UnloadAllAssets();
     }
 }
 
@@ -34,6 +37,7 @@ void FlowstateManager::ApplyPendingTransition()
     if (currentState)
     {
         currentState->FlowstateExit();
+        AssetManager::Get().UnloadAllAssets();
     }
 
     currentState = std::move(pendingState);

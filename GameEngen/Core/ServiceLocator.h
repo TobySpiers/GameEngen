@@ -2,6 +2,7 @@
 
 #include <memory>
 
+class AssetManager;
 class GameObjectManager;
 class InputManager;
 class Renderer;
@@ -15,10 +16,11 @@ public:
     static void ProvideWindow(GLFWwindow* window);
 
     // Lazily constructs on first access
-    static GameObjectManager& GetGameObjectManager();
-    static InputManager&      GetInputManager();
-    static Renderer&          GetRenderer();
-    static SoundManager&      GetSoundManager();
+    static AssetManager&       GetAssetManager();
+    static GameObjectManager&  GetGameObjectManager();
+    static InputManager&       GetInputManager();
+    static Renderer&           GetRenderer();
+    static SoundManager&       GetSoundManager();
 
     // Returns the GLFW window registered via ProvideWindow
     static GLFWwindow* GetWindow();
@@ -27,9 +29,10 @@ public:
     static void Shutdown();
 
 private:
-    static std::unique_ptr<GameObjectManager> s_gameObjectManager;
-    static std::unique_ptr<InputManager>      s_inputManager;
-    static std::unique_ptr<Renderer>          s_renderer;
-    static std::unique_ptr<SoundManager>      s_soundManager;
-    static GLFWwindow*                        s_window;
+    static std::unique_ptr<AssetManager>       s_assetManager;
+    static std::unique_ptr<GameObjectManager>  s_gameObjectManager;
+    static std::unique_ptr<InputManager>       s_inputManager;
+    static std::unique_ptr<Renderer>           s_renderer;
+    static std::unique_ptr<SoundManager>       s_soundManager;
+    static GLFWwindow*                         s_window;
 };

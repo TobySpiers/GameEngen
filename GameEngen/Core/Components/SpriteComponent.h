@@ -2,6 +2,8 @@
 
 #include "Core/GameObjectComponent.h"
 
+#include <memory>
+
 class Texture;
 
 class SpriteComponent : public GameObjectComponent
@@ -11,9 +13,9 @@ public:
 
     void OnDraw(Renderer& renderer) override;
 
-    void     SetTexture(Texture* inTexture) { texture = inTexture; }
-    Texture* GetTexture() const             { return texture; }
+    void SetTexture(std::shared_ptr<const Texture> inTexture) { texture = std::move(inTexture); }
+    const Texture* GetTexture() const                         { return texture.get(); }
 
 private:
-    Texture* texture = nullptr;
+    std::shared_ptr<const Texture> texture;
 };
