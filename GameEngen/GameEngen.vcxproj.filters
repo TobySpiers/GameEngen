@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{C2D3E4F5-A6B7-8901-CDEF-234567890ABC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{D3E4F5A6-B7C8-9012-DEF0-345678901BCD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Flowstates">
+      <UniqueIdentifier>{E4F5A6B7-C8D9-0123-EF01-456789012CDE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Third Party">
+      <UniqueIdentifier>{B5F43E4A-1D2C-4B3A-9F7E-8C6D5A2B1E0F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Third Party\glad">
+      <UniqueIdentifier>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Third Party\imgui">
+      <UniqueIdentifier>{F0E1D2C3-B4A5-6789-0123-456789ABCDEF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClCompile Include="Audio\SoundManager.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FlowstateManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameObjectManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\InputManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ServiceLocator.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Flowstates\GameFlowstate.cpp">
+      <Filter>Flowstates</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+
+    <ClCompile Include="$(SolutionDir)third_party\glad\src\glad.c">
+      <Filter>Third Party\glad</Filter>
+    </ClCompile>
+
+    <ClCompile Include="$(SolutionDir)third_party\imgui\imgui.cpp">
+      <Filter>Third Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)third_party\imgui\imgui_demo.cpp">
+      <Filter>Third Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)third_party\imgui\imgui_draw.cpp">
+      <Filter>Third Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)third_party\imgui\imgui_tables.cpp">
+      <Filter>Third Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)third_party\imgui\imgui_widgets.cpp">
+      <Filter>Third Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)third_party\imgui\backends\imgui_impl_glfw.cpp">
+      <Filter>Third Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)third_party\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>Third Party\imgui</Filter>
+    </ClCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="Audio\SoundManager.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Flowstate.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FlowstateManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameObjectManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\InputManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ServiceLocator.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Transform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Flowstates\GameFlowstate.h">
+      <Filter>Flowstates</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

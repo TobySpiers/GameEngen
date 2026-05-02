@@ -1,0 +1,82 @@
+# Visual Studio build output
+x64/
+x86/
+Debug/
+Release/
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+# IDE user-specific files
+*.user
+*.suo
+.vs/
+.idea/
+
+# Compiled object files and intermediates
+*.obj
+*.pch
+*.idb
+*.pdb
+*.ilk
+*.exp
+
+# Executables
+*.exe
+*.out
+
+# ImGui runtime state (auto-generated, machine-specific)
+imgui.ini
+Assets/imgui.ini
+
+# Log files
+*.log
+
+# third_party: ignore any nested .gitignore files from library repos
+third_party/**/.gitignore
+
+# third_party: imgui — exclude docs, GitHub meta, examples, unused backends, and unused misc
+third_party/imgui/misc/freetype/
+third_party/imgui/misc/single_file/
+
+# third_party: imgui — exclude docs, GitHub meta, all examples, and unused backends
+third_party/imgui/.github/
+third_party/imgui/docs/
+third_party/imgui/examples/
+third_party/imgui/backends/
+# Re-include only the two backends we actually use
+!third_party/imgui/backends/imgui_impl_opengl3.h
+!third_party/imgui/backends/imgui_impl_opengl3.cpp
+!third_party/imgui/backends/imgui_impl_opengl3_loader.h
+!third_party/imgui/backends/imgui_impl_glfw.h
+!third_party/imgui/backends/imgui_impl_glfw.cpp
+
+# third_party: glfw — exclude docs and all pre-vc2022 lib folders
+third_party/glfw/docs/
+third_party/glfw/lib-vc2013/
+third_party/glfw/lib-vc2015/
+third_party/glfw/lib-vc2017/
+third_party/glfw/lib-vc2019/
+third_party/glfw/lib-mingw-w64/
+third_party/glfw/lib-static-ucrt/
+
+# third_party: glm — exclude docs, tests, cmake, and build utilities
+third_party/glm/doc/
+third_party/glm/test/
+third_party/glm/cmake/
+third_party/glm/util/
+
+# third_party: openal — exclude non-essential extras
+# NOTE: bin/ (soft_oal.dll) and router/ (OpenAL32.dll) are runtime deps — kept
+third_party/openal/alsoft-config/
+third_party/openal/cxx-modules/
+third_party/openal/hrtf_defs/
+third_party/openal/makemhr/
+third_party/openal/presets/
+third_party/openal/*.exe
