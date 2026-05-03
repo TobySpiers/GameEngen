@@ -1,6 +1,8 @@
 #include "ServiceLocator.h"
 
 #include "AssetManager.h"
+#include "Debug/DebugPanelManager.h"
+#include "GraphicsSettings.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Rendering/Renderer.h"
@@ -10,6 +12,8 @@
 
 // Static member definitions
 std::unique_ptr<AssetManager>      ServiceLocator::s_assetManager;
+std::unique_ptr<DebugPanelManager> ServiceLocator::s_debugPanelManager;
+std::unique_ptr<GraphicsSettings>  ServiceLocator::s_graphicsSettings;
 std::unique_ptr<GameObjectManager> ServiceLocator::s_gameObjectManager;
 std::unique_ptr<InputManager>      ServiceLocator::s_inputManager;
 std::unique_ptr<Renderer>          ServiceLocator::s_renderer;
@@ -23,6 +27,24 @@ AssetManager& ServiceLocator::GetAssetManager()
         s_assetManager = std::make_unique<AssetManager>();
     }
     return *s_assetManager;
+}
+
+DebugPanelManager& ServiceLocator::GetDebugPanelManager()
+{
+    if (!s_debugPanelManager)
+    {
+        s_debugPanelManager = std::make_unique<DebugPanelManager>();
+    }
+    return *s_debugPanelManager;
+}
+
+GraphicsSettings& ServiceLocator::GetGraphicsSettings()
+{
+    if (!s_graphicsSettings)
+    {
+        s_graphicsSettings = std::make_unique<GraphicsSettings>();
+    }
+    return *s_graphicsSettings;
 }
 
 void ServiceLocator::ProvideWindow(GLFWwindow* window)
@@ -78,6 +100,8 @@ SoundManager& ServiceLocator::GetSoundManager()
 void ServiceLocator::Shutdown()
 {
     s_assetManager.reset();
+    s_debugPanelManager.reset();
+    s_graphicsSettings.reset();
     s_gameObjectManager.reset();
     s_inputManager.reset();
     s_soundManager.reset();

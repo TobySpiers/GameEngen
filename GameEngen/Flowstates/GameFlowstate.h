@@ -2,13 +2,9 @@
 
 #include "Core/Flowstate.h"
 #include "Audio/SoundManager.h"
+#include "Core/GameInputs.h"
 
-enum GameInput
-{
-    Input_PlaySound,
-};
-
-class SpriteObject;
+class PlayerObject;
 
 class GameFlowstate : public Flowstate
 {
@@ -18,7 +14,7 @@ public:
     void FlowstateExit()                  override;
 
 private:
-    SpriteObject* testSprite  = nullptr;
+    PlayerObject* player      = nullptr;
     SoundId       startUpSound = InvalidSound;
     MusicId       musicLoop    = InvalidMusic;
 };

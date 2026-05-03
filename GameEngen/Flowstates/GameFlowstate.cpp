@@ -3,17 +3,20 @@
 #include "Audio/SoundManager.h"
 #include "Core/GameObjectManager.h"
 #include "Core/InputManager.h"
-#include "Core/GameObjects/SpriteObject.h"
+#include "Core/GameObjects/PlayerObject.h"
 #include "Rendering/Renderer.h"
 
 #include <GLFW/glfw3.h>
-#include <imgui.h>
 
 void GameFlowstate::FlowstateEnter()
 {
     InputManager::Get().Bind(Input_PlaySound, GLFW_KEY_SPACE);
+    InputManager::Get().Bind(Input_MoveLeft,  GLFW_KEY_A);
+    InputManager::Get().Bind(Input_MoveRight, GLFW_KEY_D);
+    InputManager::Get().Bind(Input_MoveDown,  GLFW_KEY_S);
+    InputManager::Get().Bind(Input_MoveUp,    GLFW_KEY_W);
 
-    testSprite = GameObjectManager::Get().Spawn<SpriteObject>("sprites/test.png");
+    player = GameObjectManager::Get().Spawn<PlayerObject>("sprites/test.png");
 
     startUpSound = SoundManager::Get().LoadSound("sounds/StartUp.wav");
     musicLoop    = SoundManager::Get().LoadMusic("music/MusicLoop.mp3");
@@ -31,16 +34,14 @@ void GameFlowstate::FlowstateUpdate(float deltaTime)
     {
         SoundManager::Get().Play(startUpSound);
     }
-
-    ImGui::ShowDemoWindow();
 }
 
 void GameFlowstate::FlowstateExit()
 {
     SoundManager::Get().StopMusic(musicLoop);
 
-    if (testSprite)
+    if (player)
     {
-        testSprite->Destroy();
+        player->Destroy();
     }
 }

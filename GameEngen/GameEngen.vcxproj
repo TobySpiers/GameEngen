@@ -183,19 +183,28 @@
   <!-- ==================== Header Files ==================== -->
   <ItemGroup>
     <ClInclude Include="Audio\SoundManager.h" />
+    <ClInclude Include="Core\Debug\DebugPanel.h" />
+    <ClInclude Include="Core\Debug\DebugPanelManager.h" />
+    <ClInclude Include="Core\Debug\DebugPanelGraphicsSettings.h" />
+    <ClInclude Include="Core\Debug\DebugPanelImGuiDemo.h" />
     <ClInclude Include="Core\AssetManager.h" />
+    <ClInclude Include="Core\GraphicsSettings.h" />
+    <ClInclude Include="Core\UserSettings.h" />
     <ClInclude Include="Core\Flowstate.h" />
     <ClInclude Include="Core\FlowstateManager.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\GameObjectComponent.h" />
     <ClInclude Include="Core\GameObjectManager.h" />
     <ClInclude Include="Core\Components\SpriteComponent.h" />
+    <ClInclude Include="Core\GameObjects\PlayerObject.h" />
     <ClInclude Include="Core\GameObjects\SpriteObject.h" />
     <ClInclude Include="Core\InputManager.h" />
     <ClInclude Include="Core\ServiceLocator.h" />
     <ClInclude Include="Core\Transform.h" />
     <ClInclude Include="Flowstates\GameFlowstate.h" />
+    <ClInclude Include="Core\GameInputs.h" />
     <ClInclude Include="Rendering\Renderer.h" />
+    <ClInclude Include="Rendering\RenderTarget.h" />
     <ClInclude Include="Rendering\Shader.h" />
     <ClInclude Include="Rendering\Texture.h" />
   </ItemGroup>
@@ -204,18 +213,24 @@
   <ItemGroup>
     <!-- Project source -->
     <ClCompile Include="Audio\SoundManager.cpp" />
+    <ClCompile Include="Core\Debug\DebugPanelManager.cpp" />
+    <ClCompile Include="Core\Debug\DebugPanelGraphicsSettings.cpp" />
+    <ClCompile Include="Core\Debug\DebugPanelImGuiDemo.cpp" />
     <ClCompile Include="Core\AssetManager.cpp" />
+    <ClCompile Include="Core\GraphicsSettings.cpp" />
     <ClCompile Include="Core\FlowstateManager.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\GameObjectComponent.cpp" />
     <ClCompile Include="Core\GameObjectManager.cpp" />
     <ClCompile Include="Core\Components\SpriteComponent.cpp" />
+    <ClCompile Include="Core\GameObjects\PlayerObject.cpp" />
     <ClCompile Include="Core\GameObjects\SpriteObject.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />
     <ClCompile Include="Core\ServiceLocator.cpp" />
     <ClCompile Include="Flowstates\GameFlowstate.cpp" />
     <ClCompile Include="GameEngen.cpp" />
     <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="Rendering\RenderTarget.cpp" />
     <ClCompile Include="Rendering\Shader.cpp" />
     <ClCompile Include="Rendering\Texture.cpp" />
     <!-- glad - compiled as C -->

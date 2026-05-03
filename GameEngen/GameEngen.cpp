@@ -7,6 +7,9 @@
 
 #include "Core/ServiceLocator.h"
 #include "Core/FlowstateManager.h"
+#include "Core/Debug/DebugPanelManager.h"
+#include "Core/Debug/DebugPanelGraphicsSettings.h"
+#include "Core/Debug/DebugPanelImGuiDemo.h"
 #include "Flowstates/GameFlowstate.h"
 #include "Rendering/Renderer.h"
 
@@ -63,6 +66,9 @@ int main(int argc, char* argv[])
 
     ServiceLocator::ProvideWindow(window);
     {
+        DebugPanelManager::Get().RegisterPanel<DebugPanelGraphicsSettings>();
+        DebugPanelManager::Get().RegisterPanel<DebugPanelImGuiDemo>();
+
         FlowstateManager flowstateManager;
         flowstateManager.SwitchTo(std::make_unique<GameFlowstate>());
 
@@ -86,6 +92,10 @@ int main(int argc, char* argv[])
             Renderer::Get().BeginFrame(displayWidth, displayHeight);
 
             flowstateManager.Update(deltaTime);
+
+            Renderer::Get().EndFrame();
+
+            DebugPanelManager::Get().Update();
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

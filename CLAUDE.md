@@ -10,6 +10,10 @@ A rendering testbed built on OpenGL 4.6 Core Profile, intended for experimenting
 - **camelCase** for variables and parameters
 - **Booleans** are always prefixed with a lowercase `b` (e.g. `bTickEnabled`, `bPendingDestroy`, `bIsGrounded`)
 
+### Variable Shadowing
+- A variable name must **never** hide an existing variable in an outer scope — this includes parameters, loop variables, and any other locals
+- If a name collision arises, rename the inner variable to something more specific (e.g. `vidMode` instead of `mode` when a parameter is already named `mode`)
+
 ### Braces
 - Curly braces are **always** used for if statements, for loops, while loops, and any other control flow — no single-line braceless bodies
 - Curly braces **always** occupy their own line
