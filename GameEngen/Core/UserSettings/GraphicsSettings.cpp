@@ -1,4 +1,4 @@
-#include "Core/GraphicsSettings.h"
+#include "UserSettings/GraphicsSettings.h"
 
 void GraphicsSettings::ResetToDefaults()
 {

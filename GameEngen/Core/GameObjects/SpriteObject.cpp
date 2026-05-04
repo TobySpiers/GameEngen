@@ -1,7 +1,7 @@
-#include "Core/GameObjects/SpriteObject.h"
+#include "GameObjects/SpriteObject.h"
 
-#include "Core/AssetManager.h"
-#include "Core/Components/SpriteComponent.h"
+#include "AssetManager.h"
+#include "Components/SpriteComponent.h"
 
 SpriteObject::SpriteObject(const std::string& texturePath)
     : SpriteObject(AssetManager::Get().GetTexture(texturePath))

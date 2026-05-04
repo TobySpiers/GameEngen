@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ServiceLocator.h"
+#include "ServiceLocator.h"
 
 #include <memory>
 #include <string>

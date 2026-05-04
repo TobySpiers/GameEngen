@@ -1,6 +1,6 @@
-#include "Core/Components/SpriteComponent.h"
+#include "Components/SpriteComponent.h"
 
-#include "Core/GameObject.h"
+#include "GameObject.h"
 #include "Rendering/Renderer.h"
 #include "Rendering/Texture.h"
 

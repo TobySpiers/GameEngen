@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/ServiceLocator.h"
-#include "Core/UserSettings.h"
+#include "ServiceLocator.h"
+#include "UserSettings/UserSettings.h"
 
 enum class WindowMode
 {

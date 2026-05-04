@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/Flowstate.h"
+#include "Flowstate.h"
 #include "Audio/SoundManager.h"
-#include "Core/GameInputs.h"
+#include "GameInputs.h"
 
 class PlayerObject;
 

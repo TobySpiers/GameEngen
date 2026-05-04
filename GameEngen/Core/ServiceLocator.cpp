@@ -2,7 +2,7 @@
 
 #include "AssetManager.h"
 #include "Debug/DebugPanelManager.h"
-#include "GraphicsSettings.h"
+#include "UserSettings/GraphicsSettings.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Rendering/Renderer.h"

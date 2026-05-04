@@ -1,9 +1,9 @@
 #include "GameFlowstate.h"
 
 #include "Audio/SoundManager.h"
-#include "Core/GameObjectManager.h"
-#include "Core/InputManager.h"
-#include "Core/GameObjects/PlayerObject.h"
+#include "GameObjectManager.h"
+#include "InputManager.h"
+#include "GameObjects/PlayerObject.h"
 #include "Rendering/Renderer.h"
 
 #include <GLFW/glfw3.h>

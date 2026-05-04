@@ -1,8 +1,8 @@
-#include "Core/GameObjects/PlayerObject.h"
+#include "GameObjects/PlayerObject.h"
 
-#include "Core/AssetManager.h"
-#include "Core/Components/SpriteComponent.h"
-#include "Core/InputManager.h"
+#include "AssetManager.h"
+#include "Components/SpriteComponent.h"
+#include "InputManager.h"
 
 PlayerObject::PlayerObject(const std::string& texturePath)
     : PlayerObject(AssetManager::Get().GetTexture(texturePath))

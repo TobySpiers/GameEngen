@@ -3,8 +3,8 @@
 #include "Shader.h"
 #include "Texture.h"
 
-#include "Core/AssetManager.h"
-#include "Core/GraphicsSettings.h"
+#include "AssetManager.h"
+#include "UserSettings/GraphicsSettings.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -234,6 +234,7 @@ void Renderer::SetWindowMode(WindowMode mode)
             GLFWmonitor*       monitor = GetCurrentMonitor();
             const GLFWvidmode* vidMode = glfwGetVideoMode(monitor);
 
+            glfwSetWindowAttrib(window, GLFW_DECORATED, GLFW_TRUE);
             glfwSetWindowMonitor(window, monitor, 0, 0,
                                  vidMode->width, vidMode->height, vidMode->refreshRate);
             break;

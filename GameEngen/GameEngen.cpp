@@ -5,18 +5,18 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
-#include "Core/ServiceLocator.h"
-#include "Core/FlowstateManager.h"
-#include "Core/Debug/DebugPanelManager.h"
-#include "Core/Debug/DebugPanelGraphicsSettings.h"
-#include "Core/Debug/DebugPanelImGuiDemo.h"
+#include "ServiceLocator.h"
+#include "FlowstateManager.h"
+#include "Debug/DebugPanelManager.h"
+#include "Debug/DebugPanelGraphicsSettings.h"
+#include "Debug/DebugPanelImGuiDemo.h"
 #include "Flowstates/GameFlowstate.h"
 #include "Rendering/Renderer.h"
 
 #include <cstdio>
 #include <filesystem>
 
-#include "Core/InputManager.h"
+#include "InputManager.h"
 
 static void OnGlfwError(int error, const char* description)
 {

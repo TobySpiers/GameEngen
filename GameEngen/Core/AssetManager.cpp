@@ -1,4 +1,4 @@
-#include "Core/AssetManager.h"
+#include "AssetManager.h"
 
 #include "Rendering/Shader.h"
 #include "Rendering/Texture.h"

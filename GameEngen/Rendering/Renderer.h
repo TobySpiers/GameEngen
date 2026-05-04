@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/GraphicsSettings.h"
-#include "Core/ServiceLocator.h"
+#include "UserSettings/GraphicsSettings.h"
+#include "ServiceLocator.h"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>

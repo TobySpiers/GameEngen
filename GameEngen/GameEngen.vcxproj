@@ -100,7 +100,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,7 +118,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,7 +165,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -188,8 +188,8 @@
     <ClInclude Include="Core\Debug\DebugPanelGraphicsSettings.h" />
     <ClInclude Include="Core\Debug\DebugPanelImGuiDemo.h" />
     <ClInclude Include="Core\AssetManager.h" />
-    <ClInclude Include="Core\GraphicsSettings.h" />
-    <ClInclude Include="Core\UserSettings.h" />
+    <ClInclude Include="Core\UserSettings\UserSettings.h" />
+    <ClInclude Include="Core\UserSettings\GraphicsSettings.h" />
     <ClInclude Include="Core\Flowstate.h" />
     <ClInclude Include="Core\FlowstateManager.h" />
     <ClInclude Include="Core\GameObject.h" />
@@ -217,7 +217,7 @@
     <ClCompile Include="Core\Debug\DebugPanelGraphicsSettings.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelImGuiDemo.cpp" />
     <ClCompile Include="Core\AssetManager.cpp" />
-    <ClCompile Include="Core\GraphicsSettings.cpp" />
+    <ClCompile Include="Core\UserSettings\GraphicsSettings.cpp" />
     <ClCompile Include="Core\FlowstateManager.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\GameObjectComponent.cpp" />
