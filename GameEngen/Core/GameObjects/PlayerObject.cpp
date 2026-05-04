@@ -2,6 +2,7 @@
 
 #include "Audio/SoundManager.h"
 #include "Components/SoundComponent.h"
+#include "Components/SoundListenerComponent.h"
 #include "Components/SpriteComponent.h"
 #include "InputManager.h"
 
@@ -11,6 +12,7 @@ PlayerObject::PlayerObject()
     spriteComp->SetTexture("sprites/test.png");
 
     soundComp    = AddComponent<SoundComponent>();
+    listenerComp = AddComponent<SoundListenerComponent>();
     startUpSound = SoundManager::Get().LoadSound("sounds/StartUp.wav");
 }
 

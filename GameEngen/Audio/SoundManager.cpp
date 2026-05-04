@@ -101,6 +101,23 @@ void SoundManager::Play(SoundId id)
     ALuint source = AcquireSource();
     alSourcei(source, AL_BUFFER, static_cast<ALint>(it->second));
     alSourcef(source, AL_GAIN, AudioSettings::Get().soundEffectsVolume);
+    // Source-relative: plays at the listener regardless of world position
+    alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE);
+    alSource3f(source, AL_POSITION, 0.0f, 0.0f, 0.0f);
+    alSourcePlay(source);
+}
+
+void SoundManager::PlayAt(SoundId id, glm::vec3 position)
+{
+    auto it = soundBuffers.find(id);
+    if (it == soundBuffers.end())
+        return;
+
+    ALuint source = AcquireSource();
+    alSourcei(source, AL_BUFFER, static_cast<ALint>(it->second));
+    alSourcef(source, AL_GAIN, AudioSettings::Get().soundEffectsVolume);
+    alSourcei(source, AL_SOURCE_RELATIVE, AL_FALSE);
+    alSource3f(source, AL_POSITION, position.x, position.y, position.z);
     alSourcePlay(source);
 }
 

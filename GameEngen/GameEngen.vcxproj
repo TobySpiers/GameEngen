@@ -185,6 +185,7 @@
     <ClInclude Include="Audio\AudioTypes.h" />
     <ClInclude Include="Audio\SoundManager.h" />
     <ClInclude Include="Core\Components\SoundComponent.h" />
+    <ClInclude Include="Core\Components\SoundListenerComponent.h" />
     <ClInclude Include="Core\Debug\DebugPanel.h" />
     <ClInclude Include="Core\Debug\DebugPanelManager.h" />
     <ClInclude Include="Core\Debug\DebugPanelAudioSettings.h" />
@@ -219,6 +220,7 @@
     <!-- Project source -->
     <ClCompile Include="Audio\SoundManager.cpp" />
     <ClCompile Include="Core\Components\SoundComponent.cpp" />
+    <ClCompile Include="Core\Components\SoundListenerComponent.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelManager.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelAudioSettings.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelGraphicsSettings.cpp" />

@@ -87,9 +87,11 @@ T* GameObject::AddComponent(Args&&... args)
     ownedComponents.push_back(std::move(comp));
 
     // If the owning object has already spawned, fire OnSpawn immediately.
+    // Cast to GameObjectComponent* so the call goes through the base-class
+    // access specifier, where GameObject is a friend.
     if (bHasSpawned)
     {
-        ptr->OnSpawn();
+        static_cast<GameObjectComponent*>(ptr)->OnSpawn();
     }
 
     return ptr;

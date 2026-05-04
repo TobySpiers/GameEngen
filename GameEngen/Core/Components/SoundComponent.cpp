@@ -1,6 +1,7 @@
 #include "Components/SoundComponent.h"
 
 #include "Audio/SoundManager.h"
+#include "GameObject.h"
 
 SoundComponent::SoundComponent()
 {
@@ -10,7 +11,7 @@ SoundComponent::SoundComponent()
 
 void SoundComponent::PlaySound(SoundId id)
 {
-    SoundManager::Get().Play(id);
+    SoundManager::Get().PlayAt(id, GetOwner()->transform.position);
 }
 
 void SoundComponent::PlaySound(const std::string& path)

@@ -10,6 +10,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <dr_mp3.h>
+#include <glm/glm.hpp>
 
 class SoundManager
 {
@@ -30,7 +31,12 @@ public:
     SoundId LoadSound(const std::string& path);
 
     // Plays a previously loaded sound as a fire-and-forget one-shot.
+    // Source-relative: plays at the listener's position regardless of world position.
     void Play(SoundId id);
+
+    // Plays a previously loaded sound at a specific world-space position.
+    // Volume and panning are affected by distance and direction from the listener.
+    void PlayAt(SoundId id, glm::vec3 position);
 
     // --- Music (MP3, streamed from disk) ---
 

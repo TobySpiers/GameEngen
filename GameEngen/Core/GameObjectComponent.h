@@ -8,11 +8,6 @@ class GameObjectComponent
 public:
     virtual ~GameObjectComponent() = default;
 
-    virtual void OnSpawn()                  {}
-    virtual void OnTick(float deltaTime)    {}
-    virtual void OnDraw(Renderer& renderer) {}
-    virtual void OnDestroy()                {}
-
     void SetTickEnabled(bool bEnabled);
     void SetDrawEnabled(bool bEnabled);
 
@@ -20,6 +15,12 @@ public:
     bool IsDrawEnabled() const { return bDrawEnabled; }
 
     GameObject* GetOwner() const { return owner; }
+
+protected:
+    virtual void OnSpawn()                  {}
+    virtual void OnTick(float deltaTime)    {}
+    virtual void OnDraw(Renderer& renderer) {}
+    virtual void OnDestroy()                {}
 
 private:
     friend class GameObject;
