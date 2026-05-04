@@ -187,10 +187,13 @@
     <ClInclude Include="Core\Components\SoundComponent.h" />
     <ClInclude Include="Core\Debug\DebugPanel.h" />
     <ClInclude Include="Core\Debug\DebugPanelManager.h" />
+    <ClInclude Include="Core\Debug\DebugPanelAudioSettings.h" />
     <ClInclude Include="Core\Debug\DebugPanelGraphicsSettings.h" />
     <ClInclude Include="Core\Debug\DebugPanelImGuiDemo.h" />
     <ClInclude Include="Core\AssetManager.h" />
     <ClInclude Include="Core\UserSettings\UserSettings.h" />
+    <ClInclude Include="Core\UserSettings\GlobalSettings.h" />
+    <ClInclude Include="Core\UserSettings\AudioSettings.h" />
     <ClInclude Include="Core\UserSettings\GraphicsSettings.h" />
     <ClInclude Include="Core\Flowstate.h" />
     <ClInclude Include="Core\FlowstateManager.h" />
@@ -217,9 +220,11 @@
     <ClCompile Include="Audio\SoundManager.cpp" />
     <ClCompile Include="Core\Components\SoundComponent.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelManager.cpp" />
+    <ClCompile Include="Core\Debug\DebugPanelAudioSettings.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelGraphicsSettings.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelImGuiDemo.cpp" />
     <ClCompile Include="Core\AssetManager.cpp" />
+    <ClCompile Include="Core\UserSettings\AudioSettings.cpp" />
     <ClCompile Include="Core\UserSettings\GraphicsSettings.cpp" />
     <ClCompile Include="Core\FlowstateManager.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />

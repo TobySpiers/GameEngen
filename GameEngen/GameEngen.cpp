@@ -8,6 +8,7 @@
 #include "ServiceLocator.h"
 #include "FlowstateManager.h"
 #include "Debug/DebugPanelManager.h"
+#include "Debug/DebugPanelAudioSettings.h"
 #include "Debug/DebugPanelGraphicsSettings.h"
 #include "Debug/DebugPanelImGuiDemo.h"
 #include "Flowstates/GameFlowstate.h"
@@ -66,6 +67,7 @@ int main(int argc, char* argv[])
 
     ServiceLocator::ProvideWindow(window);
     {
+        DebugPanelManager::Get().RegisterPanel<DebugPanelAudioSettings>();
         DebugPanelManager::Get().RegisterPanel<DebugPanelGraphicsSettings>();
         DebugPanelManager::Get().RegisterPanel<DebugPanelImGuiDemo>();
 

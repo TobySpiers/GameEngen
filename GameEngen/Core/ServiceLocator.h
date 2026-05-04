@@ -4,7 +4,7 @@
 
 class AssetManager;
 class DebugPanelManager;
-class GraphicsSettings;
+class GlobalSettings;
 class GameObjectManager;
 class InputManager;
 class Renderer;
@@ -20,7 +20,7 @@ public:
     // Lazily constructs on first access
     static AssetManager&       GetAssetManager();
     static DebugPanelManager&  GetDebugPanelManager();
-    static GraphicsSettings&   GetGraphicsSettings();
+    static GlobalSettings&     GetGlobalSettings();
     static GameObjectManager&  GetGameObjectManager();
     static InputManager&       GetInputManager();
     static Renderer&           GetRenderer();
@@ -35,7 +35,7 @@ public:
 private:
     static std::unique_ptr<AssetManager>       s_assetManager;
     static std::unique_ptr<DebugPanelManager>  s_debugPanelManager;
-    static std::unique_ptr<GraphicsSettings>   s_graphicsSettings;
+    static std::unique_ptr<GlobalSettings>     s_globalSettings;
     static std::unique_ptr<GameObjectManager>  s_gameObjectManager;
     static std::unique_ptr<InputManager>       s_inputManager;
     static std::unique_ptr<Renderer>           s_renderer;

@@ -6,6 +6,8 @@
 
 #include "SoundManager.h"
 
+#include "UserSettings/AudioSettings.h"
+
 #include <cstdio>
 #include <cstring>
 
@@ -98,6 +100,7 @@ void SoundManager::Play(SoundId id)
 
     ALuint source = AcquireSource();
     alSourcei(source, AL_BUFFER, static_cast<ALint>(it->second));
+    alSourcef(source, AL_GAIN, AudioSettings::Get().soundEffectsVolume);
     alSourcePlay(source);
 }
 
@@ -178,6 +181,7 @@ void SoundManager::PlayMusic(MusicId id, bool loop)
 
     alGenSources(1, &stream.source);
     alGenBuffers(NumStreamBuffers, stream.buffers);
+    alSourcef(stream.source, AL_GAIN, AudioSettings::Get().musicVolume);
     stream.looping = loop;
     stream.active  = true;
 
@@ -225,6 +229,8 @@ void SoundManager::Update()
     {
         if (!stream.active)
             continue;
+
+        alSourcef(stream.source, AL_GAIN, AudioSettings::Get().musicVolume);
 
         ALint processed = 0;
         alGetSourcei(stream.source, AL_BUFFERS_PROCESSED, &processed);

@@ -1,4 +1,10 @@
 #include "UserSettings/GraphicsSettings.h"
+#include "UserSettings/GlobalSettings.h"
+
+GraphicsSettings& GraphicsSettings::Get()
+{
+    return ServiceLocator::GetGlobalSettings().graphics;
+}
 
 void GraphicsSettings::ResetToDefaults()
 {

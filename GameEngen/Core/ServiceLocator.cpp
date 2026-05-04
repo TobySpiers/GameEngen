@@ -2,7 +2,7 @@
 
 #include "AssetManager.h"
 #include "Debug/DebugPanelManager.h"
-#include "UserSettings/GraphicsSettings.h"
+#include "UserSettings/GlobalSettings.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "Rendering/Renderer.h"
@@ -13,7 +13,7 @@
 // Static member definitions
 std::unique_ptr<AssetManager>      ServiceLocator::s_assetManager;
 std::unique_ptr<DebugPanelManager> ServiceLocator::s_debugPanelManager;
-std::unique_ptr<GraphicsSettings>  ServiceLocator::s_graphicsSettings;
+std::unique_ptr<GlobalSettings>    ServiceLocator::s_globalSettings;
 std::unique_ptr<GameObjectManager> ServiceLocator::s_gameObjectManager;
 std::unique_ptr<InputManager>      ServiceLocator::s_inputManager;
 std::unique_ptr<Renderer>          ServiceLocator::s_renderer;
@@ -38,13 +38,13 @@ DebugPanelManager& ServiceLocator::GetDebugPanelManager()
     return *s_debugPanelManager;
 }
 
-GraphicsSettings& ServiceLocator::GetGraphicsSettings()
+GlobalSettings& ServiceLocator::GetGlobalSettings()
 {
-    if (!s_graphicsSettings)
+    if (!s_globalSettings)
     {
-        s_graphicsSettings = std::make_unique<GraphicsSettings>();
+        s_globalSettings = std::make_unique<GlobalSettings>();
     }
-    return *s_graphicsSettings;
+    return *s_globalSettings;
 }
 
 void ServiceLocator::ProvideWindow(GLFWwindow* window)
@@ -101,7 +101,7 @@ void ServiceLocator::Shutdown()
 {
     s_assetManager.reset();
     s_debugPanelManager.reset();
-    s_graphicsSettings.reset();
+    s_globalSettings.reset();
     s_gameObjectManager.reset();
     s_inputManager.reset();
     s_soundManager.reset();

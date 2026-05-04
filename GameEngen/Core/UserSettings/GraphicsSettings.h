@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ServiceLocator.h"
 #include "UserSettings/UserSettings.h"
 
 enum class WindowMode
@@ -13,7 +12,7 @@ enum class WindowMode
 class GraphicsSettings : public UserSettings
 {
 public:
-    static GraphicsSettings& Get() { return ServiceLocator::GetGraphicsSettings(); }
+    static GraphicsSettings& Get();
 
     void ResetToDefaults() override;
 
