@@ -14,7 +14,6 @@ public:
     void FlowstateExit()                  override;
 
 private:
-    PlayerObject* player      = nullptr;
-    SoundId       startUpSound = InvalidSound;
-    MusicId       musicLoop    = InvalidMusic;
+    PlayerObject* player    = nullptr;
+    MusicId       musicLoop = InvalidMusic;
 };

@@ -1,21 +1,15 @@
 #pragma once
 
 #include "ServiceLocator.h"
+#include "Audio/AudioTypes.h"
 
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <cstdint>
 
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <dr_mp3.h>
-
-using SoundId = uint32_t;
-inline constexpr SoundId InvalidSound = 0;
-
-using MusicId = uint32_t;
-inline constexpr MusicId InvalidMusic = 0;
 
 class SoundManager
 {

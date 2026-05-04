@@ -1,5 +1,6 @@
 #include "Components/SpriteComponent.h"
 
+#include "AssetManager.h"
 #include "GameObject.h"
 #include "Rendering/Renderer.h"
 #include "Rendering/Texture.h"
@@ -9,6 +10,11 @@
 SpriteComponent::SpriteComponent()
 {
     SetTickEnabled(false);
+}
+
+void SpriteComponent::SetTexture(const std::string& path)
+{
+    texture = AssetManager::Get().GetTexture(path);
 }
 
 void SpriteComponent::OnDraw(Renderer& renderer)

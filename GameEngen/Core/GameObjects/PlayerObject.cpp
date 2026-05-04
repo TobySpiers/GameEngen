@@ -1,18 +1,17 @@
 #include "GameObjects/PlayerObject.h"
 
-#include "AssetManager.h"
+#include "Audio/SoundManager.h"
+#include "Components/SoundComponent.h"
 #include "Components/SpriteComponent.h"
 #include "InputManager.h"
 
-PlayerObject::PlayerObject(const std::string& texturePath)
-    : PlayerObject(AssetManager::Get().GetTexture(texturePath))
-{
-}
-
-PlayerObject::PlayerObject(std::shared_ptr<const Texture> texture)
+PlayerObject::PlayerObject()
 {
     spriteComp = AddComponent<SpriteComponent>();
-    spriteComp->SetTexture(std::move(texture));
+    spriteComp->SetTexture("sprites/test.png");
+
+    soundComp    = AddComponent<SoundComponent>();
+    startUpSound = SoundManager::Get().LoadSound("sounds/StartUp.wav");
 }
 
 void PlayerObject::OnTick(float deltaTime)
@@ -40,5 +39,10 @@ void PlayerObject::OnTick(float deltaTime)
     {
         movement = glm::normalize(movement);
         transform.position += movement * moveSpeed * deltaTime;
+    }
+
+    if (InputManager::Get().IsKeyPressed(Input_PlaySound))
+    {
+        soundComp->PlaySound(startUpSound);
     }
 }

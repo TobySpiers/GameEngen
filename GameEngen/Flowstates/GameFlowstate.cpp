@@ -16,10 +16,9 @@ void GameFlowstate::FlowstateEnter()
     InputManager::Get().Bind(Input_MoveDown,  GLFW_KEY_S);
     InputManager::Get().Bind(Input_MoveUp,    GLFW_KEY_W);
 
-    player = GameObjectManager::Get().Spawn<PlayerObject>("sprites/test.png");
+    player = GameObjectManager::Get().Spawn<PlayerObject>();
 
-    startUpSound = SoundManager::Get().LoadSound("sounds/StartUp.wav");
-    musicLoop    = SoundManager::Get().LoadMusic("music/MusicLoop.mp3");
+    musicLoop = SoundManager::Get().LoadMusic("music/MusicLoop.mp3");
 
     SoundManager::Get().PlayMusic(musicLoop);
 }
@@ -29,11 +28,6 @@ void GameFlowstate::FlowstateUpdate(float deltaTime)
     SoundManager::Get().Update();
     GameObjectManager::Get().Tick(deltaTime);
     GameObjectManager::Get().Draw(Renderer::Get());
-
-    if (InputManager::Get().IsKeyPressed(Input_PlaySound))
-    {
-        SoundManager::Get().Play(startUpSound);
-    }
 }
 
 void GameFlowstate::FlowstateExit()
