@@ -8,4 +8,5 @@ public:
     virtual void Save()            {}
     virtual void Load()            {}
     virtual void ResetToDefaults() = 0;
+    virtual void LogValues()       const {}
 };

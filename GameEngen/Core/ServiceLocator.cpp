@@ -5,10 +5,9 @@
 #include "UserSettings/GlobalSettings.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
+#include "Log.h"
 #include "Rendering/Renderer.h"
 #include "Audio/SoundManager.h"
-
-#include <cstdio>
 
 // Static member definitions
 std::unique_ptr<AssetManager>      ServiceLocator::s_assetManager;
@@ -54,10 +53,7 @@ void ServiceLocator::ProvideWindow(GLFWwindow* window)
 
 GLFWwindow* ServiceLocator::GetWindow()
 {
-    if (!s_window)
-    {
-        fprintf(stderr, "ServiceLocator: GetWindow() called before ProvideWindow()\n");
-    }
+    Ensure(s_window != nullptr, "ServiceLocator: GetWindow() called before ProvideWindow()");
     return s_window;
 }
 

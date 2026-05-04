@@ -3,7 +3,7 @@
 
 #include "Texture.h"
 
-#include <cstdio>
+#include "Log.h"
 
 Texture::Texture(const std::string& path)
 {
@@ -22,7 +22,7 @@ Texture::Texture(const std::string& path)
     }
     else
     {
-        fprintf(stderr, "Failed to load texture: %s\n", path.c_str());
+        Log::Error(LogCategory::Graphics, "Failed to load texture: " + path);
     }
 
     glBindTexture(GL_TEXTURE_2D, 0);

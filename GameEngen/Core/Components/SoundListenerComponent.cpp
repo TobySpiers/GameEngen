@@ -1,12 +1,11 @@
 #include "Components/SoundListenerComponent.h"
 
 #include "GameObject.h"
+#include "Log.h"
 
 #include <AL/al.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
-#include <cstdio>
 
 SoundListenerComponent* SoundListenerComponent::s_activeListener = nullptr;
 
@@ -17,10 +16,7 @@ SoundListenerComponent::SoundListenerComponent()
 
 void SoundListenerComponent::OnSpawn()
 {
-    if (s_activeListener && s_activeListener != this)
-    {
-        fprintf(stderr, "SoundListenerComponent: replacing existing active listener\n");
-    }
+    Ensure(!s_activeListener || s_activeListener == this, "SoundListenerComponent: only one listener may be active at a time");
     s_activeListener = this;
     ApplyToAL();
 }

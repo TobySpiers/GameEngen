@@ -1,10 +1,11 @@
 #include "Shader.h"
 
+#include "Log.h"
+
 #include <glm/gtc/type_ptr.hpp>
 
 #include <fstream>
 #include <sstream>
-#include <cstdio>
 
 Shader::Shader(const std::string& vertPath, const std::string& fragPath)
 {
@@ -22,7 +23,7 @@ Shader::Shader(const std::string& vertPath, const std::string& fragPath)
     {
         char infoLog[512];
         glGetProgramInfoLog(programId, 512, nullptr, infoLog);
-        fprintf(stderr, "Shader link error:\n%s\n", infoLog);
+        Log::Error(LogCategory::Graphics, "Shader link error:\n" + std::string(infoLog));
     }
 
     glDeleteShader(vertShader);
@@ -90,7 +91,7 @@ GLuint Shader::CompileShader(GLenum type, const std::string& path)
         char        infoLog[512];
         const char* typeName = (type == GL_VERTEX_SHADER) ? "vertex" : "fragment";
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-        fprintf(stderr, "Shader compile error (%s: %s):\n%s\n", typeName, path.c_str(), infoLog);
+        Log::Error(LogCategory::Graphics, "Shader compile error (" + std::string(typeName) + ": " + path + "):\n" + std::string(infoLog));
     }
 
     return shader;
@@ -101,7 +102,7 @@ std::string Shader::ReadFile(const std::string& path)
     std::ifstream file(path);
     if (!file.is_open())
     {
-        fprintf(stderr, "Failed to open shader file: %s\n", path.c_str());
+        Log::Error(LogCategory::Graphics, "Failed to open shader file: " + path);
         return "";
     }
 

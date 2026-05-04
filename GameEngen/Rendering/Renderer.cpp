@@ -4,12 +4,14 @@
 #include "Texture.h"
 
 #include "AssetManager.h"
+#include "Log.h"
 #include "UserSettings/GraphicsSettings.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <algorithm>
+#include <string>
 
 Renderer::Renderer()
 {
@@ -50,6 +52,7 @@ void Renderer::BeginFrame(int winWidth, int winHeight)
         {
             renderTarget->Resize(winWidth, winHeight);
             UpdateProjection();
+            Log::Info(LogCategory::Graphics, "Resolution: " + std::to_string(winWidth) + "x" + std::to_string(winHeight) + " (native)");
         }
     }
 

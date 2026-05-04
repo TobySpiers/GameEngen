@@ -6,10 +6,11 @@
 
 #include "SoundManager.h"
 
+#include "Log.h"
 #include "UserSettings/AudioSettings.h"
 
-#include <cstdio>
 #include <cstring>
+#include <string>
 
 SoundManager::SoundManager(int maxSources)
     : maxSources(maxSources)
@@ -17,20 +18,24 @@ SoundManager::SoundManager(int maxSources)
     device = alcOpenDevice(nullptr);
     if (!device)
     {
-        fprintf(stderr, "OpenAL: failed to open device\n");
+        Log::Error(LogCategory::Audio, "OpenAL: failed to open device");
         return;
     }
 
     context = alcCreateContext(device, nullptr);
     if (!context)
     {
-        fprintf(stderr, "OpenAL: failed to create context\n");
+        Log::Error(LogCategory::Audio, "OpenAL: failed to create context");
         alcCloseDevice(device);
         device = nullptr;
         return;
     }
 
     alcMakeContextCurrent(context);
+
+    const char* deviceName = alcGetString(device, ALC_DEVICE_SPECIFIER);
+    Log::Info(LogCategory::Audio, "Device: " + std::string(deviceName ? deviceName : "unknown"));
+    Log::Info(LogCategory::Audio, "OpenAL version: " + std::string(alGetString(AL_VERSION)));
 }
 
 SoundManager::~SoundManager()
@@ -72,7 +77,7 @@ SoundId SoundManager::LoadSound(const std::string& path)
 
     if (!data)
     {
-        fprintf(stderr, "SoundManager: failed to load sound '%s'\n", path.c_str());
+        Log::Error(LogCategory::Audio, "SoundManager: failed to load sound '" + path + "'");
         return InvalidSound;
     }
 
@@ -165,7 +170,7 @@ MusicId SoundManager::LoadMusic(const std::string& path)
     drmp3 probe;
     if (!drmp3_init_file(&probe, path.c_str(), nullptr))
     {
-        fprintf(stderr, "SoundManager: failed to open music '%s'\n", path.c_str());
+        Log::Error(LogCategory::Audio, "SoundManager: failed to open music '" + path + "'");
         return InvalidMusic;
     }
     drmp3_uninit(&probe);
@@ -192,7 +197,7 @@ void SoundManager::PlayMusic(MusicId id, bool loop)
 
     if (!drmp3_init_file(&stream.decoder, stream.path.c_str(), nullptr))
     {
-        fprintf(stderr, "SoundManager: failed to open music '%s'\n", stream.path.c_str());
+        Log::Error(LogCategory::Audio, "SoundManager: failed to open music '" + stream.path + "'");
         return;
     }
 

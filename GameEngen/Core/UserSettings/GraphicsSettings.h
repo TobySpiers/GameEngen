@@ -15,6 +15,7 @@ public:
     static GraphicsSettings& Get();
 
     void ResetToDefaults() override;
+    void LogValues()       const override;
 
     // Render target resolution presets.
     // NativeResolutionIndex is a sentinel meaning "match the window framebuffer size".

@@ -8,6 +8,7 @@ public:
     static AudioSettings& Get();
 
     void ResetToDefaults() override;
+    void LogValues()        const override;
 
     float soundEffectsVolume = 1.0f;  // 0.0 to 1.0, maps directly to AL_GAIN
     float musicVolume        = 1.0f;

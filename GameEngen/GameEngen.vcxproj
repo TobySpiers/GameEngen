@@ -97,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;SAVED_DIR=R&quot;($(SolutionDir)Saved\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -115,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;SAVED_DIR=R&quot;($(SolutionDir)Saved\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -140,7 +140,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;SAVED_DIR=R&quot;($(SolutionDir)Saved\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -162,7 +162,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;IMGUI_IMPL_OPENGL_LOADER_GLAD;ASSET_DIR=R&quot;($(SolutionDir)Assets\)&quot;;SAVED_DIR=R&quot;($(SolutionDir)Saved\)&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Core;$(SolutionDir)third_party\glad\include;$(SolutionDir)third_party\glfw\include;$(SolutionDir)third_party\glm;$(SolutionDir)third_party\imgui;$(SolutionDir)third_party\imgui\backends;$(SolutionDir)third_party\openal\include;$(SolutionDir)third_party\stb;$(SolutionDir)third_party\dr_libs;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -191,6 +191,7 @@
     <ClInclude Include="Core\Debug\DebugPanelAudioSettings.h" />
     <ClInclude Include="Core\Debug\DebugPanelGraphicsSettings.h" />
     <ClInclude Include="Core\Debug\DebugPanelImGuiDemo.h" />
+    <ClInclude Include="Core\Debug\DebugPanelLog.h" />
     <ClInclude Include="Core\AssetManager.h" />
     <ClInclude Include="Core\UserSettings\UserSettings.h" />
     <ClInclude Include="Core\UserSettings\GlobalSettings.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Core\GameObjects\PlayerObject.h" />
     <ClInclude Include="Core\GameObjects\SpriteObject.h" />
     <ClInclude Include="Core\InputManager.h" />
+    <ClInclude Include="Core\Log.h" />
     <ClInclude Include="Core\ServiceLocator.h" />
     <ClInclude Include="Core\Transform.h" />
     <ClInclude Include="Flowstates\GameFlowstate.h" />
@@ -225,6 +227,7 @@
     <ClCompile Include="Core\Debug\DebugPanelAudioSettings.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelGraphicsSettings.cpp" />
     <ClCompile Include="Core\Debug\DebugPanelImGuiDemo.cpp" />
+    <ClCompile Include="Core\Debug\DebugPanelLog.cpp" />
     <ClCompile Include="Core\AssetManager.cpp" />
     <ClCompile Include="Core\UserSettings\AudioSettings.cpp" />
     <ClCompile Include="Core\UserSettings\GraphicsSettings.cpp" />
@@ -236,6 +239,7 @@
     <ClCompile Include="Core\GameObjects\PlayerObject.cpp" />
     <ClCompile Include="Core\GameObjects\SpriteObject.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />
+    <ClCompile Include="Core\Log.cpp" />
     <ClCompile Include="Core\ServiceLocator.cpp" />
     <ClCompile Include="Flowstates\GameFlowstate.cpp" />
     <ClCompile Include="GameEngen.cpp" />

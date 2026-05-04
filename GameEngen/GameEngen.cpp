@@ -11,22 +11,35 @@
 #include "Debug/DebugPanelAudioSettings.h"
 #include "Debug/DebugPanelGraphicsSettings.h"
 #include "Debug/DebugPanelImGuiDemo.h"
+#include "Debug/DebugPanelLog.h"
 #include "Flowstates/GameFlowstate.h"
 #include "Rendering/Renderer.h"
 
-#include <cstdio>
+#include <ctime>
 #include <filesystem>
+#include <string>
 
 #include "InputManager.h"
+#include "Log.h"
+#include "UserSettings/GlobalSettings.h"
 
 static void OnGlfwError(int error, const char* description)
 {
-    fprintf(stderr, "GLFW error %d: %s\n", error, description);
+    Log::Error(LogCategory::Common, "GLFW error " + std::to_string(error) + ": " + description);
 }
 
 int main(int argc, char* argv[])
 {
     std::filesystem::current_path(ASSET_DIR);
+
+    {
+        std::time_t now = std::time(nullptr);
+        std::tm     localTime{};
+        localtime_s(&localTime, &now);
+        char timeStr[32];
+        std::strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &localTime);
+        Log::Info(LogCategory::Common, "Session started " + std::string(timeStr));
+    }
 
     glfwSetErrorCallback(OnGlfwError);
 
@@ -51,11 +64,16 @@ int main(int argc, char* argv[])
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        fprintf(stderr, "Failed to initialise GLAD\n");
+        Log::Error(LogCategory::Common, "Failed to initialise GLAD");
         glfwDestroyWindow(window);
         glfwTerminate();
         return 1;
     }
+
+    Log::Info(LogCategory::Graphics, "GPU: "    + std::string(reinterpret_cast<const char*>(glGetString(GL_RENDERER))));
+    Log::Info(LogCategory::Graphics, "Vendor: " + std::string(reinterpret_cast<const char*>(glGetString(GL_VENDOR))));
+    Log::Info(LogCategory::Graphics, "OpenGL: " + std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION))));
+    Log::Info(LogCategory::Graphics, "GLSL: "   + std::string(reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION))));
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -70,6 +88,9 @@ int main(int argc, char* argv[])
         DebugPanelManager::Get().RegisterPanel<DebugPanelAudioSettings>();
         DebugPanelManager::Get().RegisterPanel<DebugPanelGraphicsSettings>();
         DebugPanelManager::Get().RegisterPanel<DebugPanelImGuiDemo>();
+        DebugPanelManager::Get().RegisterPanel<DebugPanelLog>();
+
+        GlobalSettings::Get().LogValues();
 
         FlowstateManager flowstateManager;
         flowstateManager.SwitchTo(std::make_unique<GameFlowstate>());

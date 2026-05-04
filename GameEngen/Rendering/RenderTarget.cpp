@@ -1,6 +1,6 @@
 #include "RenderTarget.h"
 
-#include <cstdio>
+#include "Log.h"
 
 RenderTarget::RenderTarget(int width, int height)
     : width(width), height(height)
@@ -48,7 +48,7 @@ void RenderTarget::Create()
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
-        fprintf(stderr, "RenderTarget: framebuffer incomplete\n");
+        Log::Error(LogCategory::Graphics, "RenderTarget: framebuffer incomplete");
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

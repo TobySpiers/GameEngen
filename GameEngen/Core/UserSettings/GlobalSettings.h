@@ -9,6 +9,12 @@ class GlobalSettings
 public:
     static GlobalSettings& Get() { return ServiceLocator::GetGlobalSettings(); }
 
+    void LogValues() const
+    {
+        audio.LogValues();
+        graphics.LogValues();
+    }
+
     AudioSettings    audio;
     GraphicsSettings graphics;
 };
