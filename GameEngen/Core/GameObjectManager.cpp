@@ -1,10 +1,13 @@
 #include "GameObjectManager.h"
+#include "Profiler.h"
 #include "Rendering/Renderer.h"
 
 #include <algorithm>
 
 void GameObjectManager::Tick(float deltaTime)
 {
+    ProfileScope scope("GameObjectTick");
+
     // Snapshot so mid-tick list changes (SetTickEnabled, Destroy) don't
     // invalidate the iterator.
     std::vector<GameObject*> snapshot = tickableObjects;
@@ -20,6 +23,8 @@ void GameObjectManager::Tick(float deltaTime)
 
 void GameObjectManager::Draw(Renderer& renderer)
 {
+    ProfileScope scope("GameObjectDraw");
+
     std::vector<GameObject*> snapshot = drawableObjects;
     for (GameObject* obj : snapshot)
     {

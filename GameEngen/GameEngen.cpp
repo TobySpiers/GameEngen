@@ -7,11 +7,13 @@
 
 #include "ServiceLocator.h"
 #include "FlowstateManager.h"
-#include "Debug/DebugPanelManager.h"
-#include "Debug/DebugPanelAudioSettings.h"
-#include "Debug/DebugPanelGraphicsSettings.h"
-#include "Debug/DebugPanelImGuiDemo.h"
-#include "Debug/DebugPanelLog.h"
+#include "DebugPanels/DebugPanelManager.h"
+#include "DebugPanels/DebugPanelAudioSettings.h"
+#include "DebugPanels/DebugPanelGraphicsSettings.h"
+#include "DebugPanels/DebugPanelImGuiDemo.h"
+#include "DebugPanels/DebugPanelLog.h"
+#include "DebugPanels/DebugPanelProfiler.h"
+#include "Profiler.h"
 #include "Flowstates/GameFlowstate.h"
 #include "Rendering/Renderer.h"
 
@@ -19,6 +21,7 @@
 #include <filesystem>
 #include <string>
 
+#include "Audio/SoundManager.h"
 #include "InputManager.h"
 #include "Log.h"
 #include "UserSettings/GlobalSettings.h"
@@ -89,6 +92,7 @@ int main(int argc, char* argv[])
         DebugPanelManager::Get().RegisterPanel<DebugPanelGraphicsSettings>();
         DebugPanelManager::Get().RegisterPanel<DebugPanelImGuiDemo>();
         DebugPanelManager::Get().RegisterPanel<DebugPanelLog>();
+        DebugPanelManager::Get().RegisterPanel<DebugPanelProfiler>();
 
         GlobalSettings::Get().LogValues();
 
@@ -103,8 +107,17 @@ int main(int argc, char* argv[])
             float deltaTime = static_cast<float>(now - lastTime);
             lastTime        = now;
 
+            // Drain any pending GPU commands from the previous frame before
+            // opening the profiling window.  Without this, some drivers defer
+            // the render-target read/write hazard to the first draw call,
+            // inflating a named scope by ~16 ms.  glFinish() here ensures that
+            // stall is paid before measurement begins.
+            glFinish();
+            Profiler::Get().BeginFrame();
+
             glfwPollEvents();
             InputManager::Get().Update();
+            SoundManager::Get().Update();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
@@ -118,10 +131,15 @@ int main(int argc, char* argv[])
 
             Renderer::Get().EndFrame();
 
-            DebugPanelManager::Get().Update();
+            {
+                ProfileScope scope("ImGui");
+                DebugPanelManager::Get().Update();
 
-            ImGui::Render();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+                ImGui::Render();
+                ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            }
+
+            Profiler::Get().EndFrame();
 
             glfwSwapBuffers(window);
         }

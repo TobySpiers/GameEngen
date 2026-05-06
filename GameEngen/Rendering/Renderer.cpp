@@ -5,6 +5,7 @@
 
 #include "AssetManager.h"
 #include "Log.h"
+#include "Profiler.h"
 #include "UserSettings/GraphicsSettings.h"
 
 #include <GLFW/glfw3.h>
@@ -43,6 +44,8 @@ Renderer::~Renderer()
 
 void Renderer::BeginFrame(int winWidth, int winHeight)
 {
+    ProfileScope scope("Renderer");
+
     windowWidth  = winWidth;
     windowHeight = winHeight;
 
@@ -64,6 +67,8 @@ void Renderer::BeginFrame(int winWidth, int winHeight)
 
 void Renderer::EndFrame()
 {
+    ProfileScope scope("Renderer");
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // Black background for letterbox/pillarbox bars

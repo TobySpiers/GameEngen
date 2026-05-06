@@ -25,7 +25,6 @@ void GameFlowstate::FlowstateEnter()
 
 void GameFlowstate::FlowstateUpdate(float deltaTime)
 {
-    SoundManager::Get().Update();
     GameObjectManager::Get().Tick(deltaTime);
     GameObjectManager::Get().Draw(Renderer::Get());
 }

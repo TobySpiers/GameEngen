@@ -68,6 +68,7 @@ private:
         bool        looping         = false;
         bool        active          = false;  // decoder open, source & buffers allocated
         std::string path;
+        float       appliedGain     = -1.0f;  // cached gain; -1 forces the first apply
     };
 
     ALCdevice*  device  = nullptr;

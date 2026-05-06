@@ -7,6 +7,7 @@
 #include "SoundManager.h"
 
 #include "Log.h"
+#include "Profiler.h"
 #include "UserSettings/AudioSettings.h"
 
 #include <cstring>
@@ -247,12 +248,19 @@ void SoundManager::StopMusic(MusicId id)
 
 void SoundManager::Update()
 {
+    ProfileScope scope("Audio");
+
     for (auto& [id, stream] : musicStreams)
     {
         if (!stream.active)
             continue;
 
-        alSourcef(stream.source, AL_GAIN, AudioSettings::Get().musicVolume);
+        const float targetGain = AudioSettings::Get().musicVolume;
+        if (targetGain != stream.appliedGain)
+        {
+            alSourcef(stream.source, AL_GAIN, targetGain);
+            stream.appliedGain = targetGain;
+        }
 
         ALint processed = 0;
         alGetSourcei(stream.source, AL_BUFFERS_PROCESSED, &processed);

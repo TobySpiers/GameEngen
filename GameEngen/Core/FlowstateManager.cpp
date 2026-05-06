@@ -1,6 +1,7 @@
 #include "FlowstateManager.h"
 
 #include "AssetManager.h"
+#include "Profiler.h"
 
 FlowstateManager::~FlowstateManager()
 {
@@ -23,6 +24,7 @@ void FlowstateManager::Update(float deltaTime)
 
     if (currentState)
     {
+        ProfileScope scope("FlowstateUpdate");
         currentState->FlowstateUpdate(deltaTime);
     }
 }

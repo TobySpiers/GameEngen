@@ -1,7 +1,7 @@
 #include "ServiceLocator.h"
 
 #include "AssetManager.h"
-#include "Debug/DebugPanelManager.h"
+#include "DebugPanels/DebugPanelManager.h"
 #include "UserSettings/GlobalSettings.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"

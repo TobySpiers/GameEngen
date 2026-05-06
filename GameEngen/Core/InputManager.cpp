@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include "Profiler.h"
 #include "ServiceLocator.h"
 
 #include <GLFW/glfw3.h>
@@ -11,6 +12,8 @@ void InputManager::Bind(int action, int glfwKey)
 
 void InputManager::Update()
 {
+    ProfileScope scope("Input");
+
     GLFWwindow* window = ServiceLocator::GetWindow();
     for (auto& [action, key] : bindings)
     {
