@@ -7,6 +7,8 @@
 #include <glm/glm.hpp>
 
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
 class RenderTarget;
 class Shader;
@@ -39,6 +41,28 @@ public:
                     float           rotation = 0.0f,
                     glm::vec4       tint     = glm::vec4(1.0f));
 
+    // Draws a thick line between two world-space points with a colour gradient.
+    // Thickness is in world units; it is clamped to a minimum of 1 screen pixel.
+    void DrawLine(glm::vec2 start,
+                  glm::vec2 end,
+                  float     thickness,
+                  glm::vec4 startColor,
+                  glm::vec4 endColor);
+
+    // Draws a filled convex polygon with an optional solid outline.
+    // Set fillColor.a or outlineColor.a to 0 to skip that element.
+    // Note: fill uses fan triangulation from point 0 — correct for convex polygons.
+    void DrawShape(const std::vector<glm::vec2>& points,
+                   glm::vec4                     fillColor,
+                   glm::vec4                     outlineColor,
+                   float                         outlineThickness);
+
+    // Draws a filled convex polygon where each vertex carries its own colour;
+    // the interior is shaded by interpolating between them.
+    // Note: fill uses fan triangulation from point 0 — correct for convex polygons.
+    void DrawGradientShape(const std::vector<glm::vec2>& points,
+                           const std::vector<glm::vec4>& colors);
+
     int GetWindowWidth()        const { return windowWidth; }
     int GetWindowHeight()       const { return windowHeight; }
     int GetRenderTargetWidth()  const;
@@ -57,12 +81,37 @@ public:
 private:
     static constexpr int DefaultResolutionIndex = 1; // 1280x720
 
-    GLuint                        quadVao    = 0;
-    GLuint                        quadVbo    = 0;
+    // Per-sprite data uploaded to the GPU as an instanced vertex attribute buffer.
+    struct SpriteInstance
+    {
+        glm::mat4 model;
+        glm::vec4 tint;
+    };
+
+    // Vertex type shared by all primitive (line/shape) draw calls.
+    struct PrimitiveVertex
+    {
+        glm::vec2 pos;
+        glm::vec4 color;
+    };
+
+    GLuint                        quadVao        = 0;
+    GLuint                        quadVbo        = 0;
+    GLuint                        instanceVbo    = 0;
+    GLuint                        primitiveVao   = 0;
+    GLuint                        primitiveVbo   = 0;
     std::shared_ptr<const Shader> spriteShader;
     std::shared_ptr<const Shader> screenShader;
+    std::shared_ptr<const Shader> primitiveShader;
     std::unique_ptr<RenderTarget> renderTarget;
-    glm::mat4                     projection = glm::mat4(1.0f);
+    glm::mat4                     projection     = glm::mat4(1.0f);
+
+    // Sprites queued this frame, grouped by texture ID for batched instanced drawing.
+    std::unordered_map<GLuint, std::vector<SpriteInstance>> spriteQueue;
+
+    // All primitive (line/shape) vertices queued this frame, already tessellated
+    // into triangles. Flushed in one draw call at the end of the frame.
+    std::vector<PrimitiveVertex> primitiveQueue;
 
     int windowWidth  = 0;
     int windowHeight = 0;
@@ -74,6 +123,19 @@ private:
     int savedWindowedH = 720;
 
     void InitQuad();
+    void InitPrimitiveBuffer();
+
+    // Uploads each texture group's instance data and issues one instanced draw call
+    // per unique texture. Clears the queue afterwards.
+    void FlushSprites();
+
+    // Uploads the primitive queue to the GPU and issues a single draw call.
+    // Clears the queue afterwards.
+    void FlushPrimitives();
+
+    // Returns the world-unit size of one screen pixel at the current render
+    // target resolution. Used to enforce minimum line/outline thickness.
+    float PixelSizeInWorldUnits() const;
 
     // Returns the monitor that the window most overlaps with.
     struct GLFWmonitor* GetCurrentMonitor() const;
