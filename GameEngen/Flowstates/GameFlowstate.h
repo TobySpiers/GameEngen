@@ -5,6 +5,7 @@
 #include "GameInputs.h"
 
 class PlayerObject;
+class StaticMeshObject;
 
 class GameFlowstate : public Flowstate
 {
@@ -14,6 +15,9 @@ public:
     void FlowstateExit()                  override;
 
 private:
-    PlayerObject* player    = nullptr;
-    MusicId       musicLoop = InvalidMusic;
+    PlayerObject*     player    = nullptr;
+    MusicId           musicLoop = InvalidMusic;
+    StaticMeshObject* cubeObj    = nullptr;
+    StaticMeshObject* cubeObj2  = nullptr;
+    float             time      = 0.0f;
 };

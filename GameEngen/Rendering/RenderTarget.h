@@ -24,6 +24,7 @@ public:
 private:
     GLuint fbo       = 0;
     GLuint textureId = 0;
+    GLuint depthRbo  = 0;
     int    width     = 0;
     int    height    = 0;
 

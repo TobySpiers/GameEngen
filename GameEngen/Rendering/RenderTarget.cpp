@@ -46,6 +46,11 @@ void RenderTarget::Create()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0);
 
+    glGenRenderbuffers(1, &depthRbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRbo);
+
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
         Log::Error(LogCategory::Graphics, "RenderTarget: framebuffer incomplete");
@@ -57,6 +62,7 @@ void RenderTarget::Create()
 
 void RenderTarget::Destroy()
 {
+    if (depthRbo)  { glDeleteRenderbuffers(1, &depthRbo);  depthRbo  = 0; }
     if (textureId) { glDeleteTextures(1,      &textureId); textureId = 0; }
     if (fbo)       { glDeleteFramebuffers(1,  &fbo);       fbo       = 0; }
 }

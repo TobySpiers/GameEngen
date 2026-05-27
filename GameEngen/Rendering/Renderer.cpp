@@ -1,4 +1,6 @@
 #include "Renderer.h"
+#include "Mesh.h"
+#include "MeshAsset.h"
 #include "RenderTarget.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -22,15 +24,30 @@ Renderer::Renderer()
     InitQuad();
     InitPrimitiveBuffer();
 
+    glGenBuffers(1, &meshInstanceVbo);
+
+    // 1×1 white texture used as the fallback when a mesh has no texture assigned.
+    const unsigned char white[4] = { 255, 255, 255, 255 };
+    glGenTextures(1, &defaultTextureId);
+    glBindTexture(GL_TEXTURE_2D, defaultTextureId);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, white);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
     spriteShader    = AssetManager::Get().GetShader("shaders/sprite.vert",     "shaders/sprite.frag");
     screenShader    = AssetManager::Get().GetShader("shaders/screen.vert",     "shaders/screen.frag");
     primitiveShader = AssetManager::Get().GetShader("shaders/primitive.vert",  "shaders/primitive.frag");
+    meshShader      = AssetManager::Get().GetShader("shaders/mesh.vert",       "shaders/mesh.frag");
 
     renderTarget = std::make_unique<RenderTarget>(
         GraphicsSettings::ResolutionWidths[DefaultResolutionIndex],
         GraphicsSettings::ResolutionHeights[DefaultResolutionIndex]);
 
     UpdateProjection();
+    Set3DCamera(glm::vec3(0.0f, 2.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
     // Capture initial windowed state so we can restore it later
     GLFWwindow* window = ServiceLocator::GetWindow();
@@ -45,6 +62,8 @@ Renderer::~Renderer()
     glDeleteBuffers(1, &instanceVbo);
     glDeleteVertexArrays(1, &primitiveVao);
     glDeleteBuffers(1, &primitiveVbo);
+    glDeleteBuffers(1, &meshInstanceVbo);
+    if (defaultTextureId) { glDeleteTextures(1, &defaultTextureId); defaultTextureId = 0; }
 }
 
 void Renderer::BeginFrame(int winWidth, int winHeight)
@@ -67,13 +86,14 @@ void Renderer::BeginFrame(int winWidth, int winHeight)
     renderTarget->Bind();
 
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::EndFrame()
 {
     ProfileScope scope("Renderer");
 
+    FlushMeshes();
     FlushSprites();
     FlushPrimitives();
 
@@ -147,10 +167,10 @@ void Renderer::ResizeRenderTarget(int width, int height)
 }
 
 void Renderer::DrawSprite(const Texture& texture, glm::vec2 position, glm::vec2 size,
-                          float rotation, glm::vec4 tint)
+                          float rotation, glm::vec4 tint, float depth)
 {
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position, 0.0f));
+    model = glm::translate(model, glm::vec3(position, depth));
 
     if (rotation != 0.0f)
     {
@@ -171,6 +191,8 @@ void Renderer::FlushSprites()
     {
         return;
     }
+
+    glEnable(GL_DEPTH_TEST);
 
     spriteShader->Use();
     spriteShader->SetMat4("projection", projection);
@@ -199,6 +221,113 @@ void Renderer::FlushSprites()
     }
 
     glBindVertexArray(0);
+
+    glDisable(GL_DEPTH_TEST);
+}
+
+void Renderer::DrawMesh(const Mesh& mesh, const Transform& transform, glm::vec4 tint)
+{
+    const GLuint texId = mesh.GetTexture() ? mesh.GetTexture()->GetId() : defaultTextureId;
+    meshQueue[{ mesh.GetMeshAsset(), texId }].push_back({ transform.GetMatrix(), tint });
+}
+
+void Renderer::DrawMesh(const Mesh& mesh, glm::vec3 position, glm::vec3 rotation,
+                        glm::vec3 scale, glm::vec4 tint)
+{
+    Transform t;
+    t.position = position;
+    t.rotation = rotation;
+    t.scale    = scale;
+    const GLuint texId = mesh.GetTexture() ? mesh.GetTexture()->GetId() : defaultTextureId;
+    meshQueue[{ mesh.GetMeshAsset(), texId }].push_back({ t.GetMatrix(), tint });
+}
+
+void Renderer::Set3DCamera(glm::vec3 position, glm::vec3 target, float fovDegrees)
+{
+    viewMatrix = glm::lookAt(position, target, glm::vec3(0.0f, 1.0f, 0.0f));
+    const float aspect = static_cast<float>(renderTarget->GetWidth()) /
+                         static_cast<float>(renderTarget->GetHeight());
+    perspProjection = glm::perspective(glm::radians(fovDegrees), aspect, 0.1f, 1000.0f);
+}
+
+void Renderer::FlushMeshes()
+{
+    if (meshQueue.empty())
+    {
+        return;
+    }
+
+    glEnable(GL_DEPTH_TEST);
+
+    meshShader->Use();
+    meshShader->SetMat4("view",           viewMatrix);
+    meshShader->SetMat4("projection",     perspProjection);
+    meshShader->SetVec3("lightDirection", lightDirection);
+    meshShader->SetVec3("lightColor",     lightColor);
+    meshShader->SetVec3("ambientColor",   ambientColor);
+    meshShader->SetInt ("meshTexture",    0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindBuffer(GL_ARRAY_BUFFER, meshInstanceVbo);
+
+    for (auto& [key, instances] : meshQueue)
+    {
+        if (instances.empty())
+        {
+            continue;
+        }
+
+        // On first encounter, burn instance attribute layout into the mesh asset's VAO.
+        // This is geometry-specific and texture-independent, so keyed by MeshAsset.
+        if (meshesConfigured.find(key.meshAsset) == meshesConfigured.end())
+        {
+            glBindVertexArray(key.meshAsset->GetVao());
+            glBindBuffer(GL_ARRAY_BUFFER, meshInstanceVbo);
+
+            // Model matrix: 4 × vec4 at locations 3–6
+            for (int i = 0; i < 4; ++i)
+            {
+                const GLuint loc = 3 + static_cast<GLuint>(i);
+                glEnableVertexAttribArray(loc);
+                glVertexAttribPointer(loc, 4, GL_FLOAT, GL_FALSE, sizeof(MeshInstance),
+                                      reinterpret_cast<void*>(i * sizeof(glm::vec4)));
+                glVertexAttribDivisor(loc, 1);
+            }
+
+            // Tint: vec4 at location 7
+            glEnableVertexAttribArray(7);
+            glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(MeshInstance),
+                                  reinterpret_cast<void*>(sizeof(glm::mat4)));
+            glVertexAttribDivisor(7, 1);
+
+            glBindVertexArray(0);
+            meshesConfigured.insert(key.meshAsset);
+        }
+
+        glBufferData(GL_ARRAY_BUFFER,
+                     static_cast<GLsizeiptr>(instances.size() * sizeof(MeshInstance)),
+                     instances.data(), GL_STREAM_DRAW);
+
+        if (key.meshAsset->GetBackfaceCulling())
+        {
+            glEnable(GL_CULL_FACE);
+        }
+        else
+        {
+            glDisable(GL_CULL_FACE);
+        }
+
+        glBindTexture(GL_TEXTURE_2D, key.textureId);
+        glBindVertexArray(key.meshAsset->GetVao());
+        glDrawElementsInstanced(GL_TRIANGLES, key.meshAsset->GetIndexCount(), GL_UNSIGNED_INT,
+                                nullptr, static_cast<GLsizei>(instances.size()));
+        glBindVertexArray(0);
+
+        instances.clear();
+    }
+
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
 }
 
 float Renderer::PixelSizeInWorldUnits() const
@@ -545,5 +674,5 @@ void Renderer::UpdateProjection()
     const float aspect    = static_cast<float>(renderTarget->GetWidth()) /
                             static_cast<float>(renderTarget->GetHeight());
     const float worldHigh = GraphicsSettings::Get().worldUnitsWide / aspect;
-    projection = glm::ortho(0.0f, GraphicsSettings::Get().worldUnitsWide, 0.0f, worldHigh, -1.0f, 1.0f);
+    projection = glm::ortho(0.0f, GraphicsSettings::Get().worldUnitsWide, 0.0f, worldHigh, -100.0f, 100.0f);
 }

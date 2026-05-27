@@ -1,5 +1,6 @@
 #include "AssetManager.h"
 
+#include "Rendering/MeshAsset.h"
 #include "Rendering/Shader.h"
 #include "Rendering/Texture.h"
 
@@ -31,6 +32,21 @@ std::shared_ptr<const Shader> AssetManager::GetShader(const std::string& vertPat
     return shader;
 }
 
+std::shared_ptr<const MeshAsset> AssetManager::GetMeshAsset(const std::string& key) const
+{
+    auto it = meshAssets.find(key);
+    if (it != meshAssets.end())
+    {
+        return it->second;
+    }
+    return nullptr;
+}
+
+void AssetManager::RegisterMeshAsset(const std::string& key, std::shared_ptr<MeshAsset> meshAsset)
+{
+    meshAssets[key] = std::move(meshAsset);
+}
+
 void AssetManager::UnloadAllTextures()
 {
     textures.clear();
@@ -41,8 +57,14 @@ void AssetManager::UnloadAllShaders()
     shaders.clear();
 }
 
+void AssetManager::UnloadAllMeshAssets()
+{
+    meshAssets.clear();
+}
+
 void AssetManager::UnloadAllAssets()
 {
     UnloadAllTextures();
     UnloadAllShaders();
+    UnloadAllMeshAssets();
 }

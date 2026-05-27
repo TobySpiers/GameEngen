@@ -26,7 +26,7 @@ public:
     static constexpr int         NativeResolutionIndex = ResolutionCount;
 
     int        selectedResolution = NativeResolutionIndex;
-    float      worldUnitsWide     = 1280.0f;
+    float      worldUnitsWide     = 1920.0f;
     bool       bStretchToFill     = false;
     WindowMode windowMode         = WindowMode::Windowed;
     float      uiScale            = 1.5f;

@@ -31,5 +31,5 @@ void SpriteComponent::OnDraw(Renderer& renderer)
                            texture->GetHeight() * t.scale.y };
     float rotation     = t.rotation.z;
 
-    renderer.DrawSprite(*texture, position, size, rotation);
+    renderer.DrawSprite(*texture, position, size, rotation, glm::vec4(1.0f), t.position.z);
 }

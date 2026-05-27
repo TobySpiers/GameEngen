@@ -1,12 +1,16 @@
 #include "GameFlowstate.h"
 
+#include "AssetManager.h"
 #include "Audio/SoundManager.h"
 #include "GameObjectManager.h"
 #include "InputManager.h"
 #include "GameObjects/PlayerObject.h"
+#include "GameObjects/StaticMeshObject.h"
+#include "Rendering/MeshAsset.h"
 #include "Rendering/Renderer.h"
 
 #include <GLFW/glfw3.h>
+#include <cmath>
 
 void GameFlowstate::FlowstateEnter()
 {
@@ -19,12 +23,36 @@ void GameFlowstate::FlowstateEnter()
     player = GameObjectManager::Get().Spawn<PlayerObject>();
 
     musicLoop = SoundManager::Get().LoadMusic("music/MusicLoop.mp3");
-
     SoundManager::Get().PlayMusic(musicLoop);
+
+    auto cubeAsset = MeshAsset::CreateCube();
+    AssetManager::Get().RegisterMeshAsset("cube", cubeAsset);
+
+    Renderer::Get().Set3DCamera(glm::vec3(0.0f, 2.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+
+    cubeObj = GameObjectManager::Get().Spawn<StaticMeshObject>(cubeAsset);
+    cubeObj->transform.position = glm::vec3(-1.0f, 0.0f, 0.0f);
+
+    cubeObj2 = GameObjectManager::Get().Spawn<StaticMeshObject>(cubeAsset, "sprites/test.png");
+    cubeObj2->transform.position = glm::vec3(1.0f, 0.0f, 0.0f);
 }
 
 void GameFlowstate::FlowstateUpdate(float deltaTime)
 {
+    time += deltaTime;
+
+    if (cubeObj)
+    {
+        cubeObj->transform.rotation.y = time * 45.0f;
+        cubeObj->transform.position.y = std::sin(time * 1.5f) * 0.5f;
+    }
+
+    if (cubeObj2)
+    {
+        cubeObj2->transform.rotation.y = time * 45.0f;
+        cubeObj2->transform.position.y = std::sin(time * 1.5f + 3.14159265f) * 0.5f;
+    }
+
     GameObjectManager::Get().Tick(deltaTime);
     GameObjectManager::Get().Draw(Renderer::Get());
 
@@ -135,4 +163,16 @@ void GameFlowstate::FlowstateExit()
     {
         player->Destroy();
     }
+
+    if (cubeObj)
+    {
+        cubeObj->Destroy();
+    }
+
+    if (cubeObj2)
+    {
+        cubeObj2->Destroy();
+    }
+
+    AssetManager::Get().UnloadAllMeshAssets();
 }
